@@ -1,0 +1,42 @@
+@(msg: String, users: List[models.User])
+
+@main_manager(msg){
+<div class="container">
+	<div class="page-header">
+		<h1>Usuarios cadastrados</h1>
+	</div>
+	<div class="row">
+		@if(flash.containsKey("fail")){
+			<div class="alert alert-danger">
+				@flash.get("fail")
+			</div>
+		}
+		@if(flash.containsKey("success")) {
+				<div class="alert alert-success">
+					@flash.get("success")
+				</div>
+		}
+		@if(users.isEmpty()){
+			<p class="text-warning">Usuarios não cadastrados!</p>
+		} 
+		<div class="col-12">
+			<a href="@controllers.manager.routes.ManagerUser.save()" type="button" class="btn btn-success">Criar</a>
+		</div >
+		<br>
+		<br>
+		@for(user <- users){
+			<div class="col-md-3 col-sm-4 col-xs-8">
+				<div class="thumbnail">
+					<div style="margin-left: 25px;"></div>
+					<p>@user.getName()</p>
+					<div>
+						<a href="@controllers.manager.routes.ManagerUser.updateFind(user.getId())" type="button" class="btn btn-primary">Editar</a>
+						<a href="@controllers.manager.routes.ManagerUser.delete(user.getId())" type="button" class="btn btn-danger">Excluir</a>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+</div>
+
+}

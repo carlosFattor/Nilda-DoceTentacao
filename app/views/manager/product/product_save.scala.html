@@ -1,0 +1,45 @@
+@(msg: String, prodForm: Form[models.Product], cats: Map[String, String])
+
+@import helper._
+
+@main_manager(msg){
+	@form(controllers.manager.routes.ManagerProduct.productUpdate(), 'class -> "form"){
+		<fieldset>
+		<legend>@msg</legend>
+			@if(prodForm("id").value()!= null){
+				@inputText(prodForm("id"))
+			}
+			<p class="text">
+				@inputText(prodForm("name"), '_label -> "Nome", 'required -> true)
+			</p>
+			<p class="text">
+			@inputText(prodForm("description"), '_label -> "Descrição", 'required -> true)
+			</p>
+			<p class="text">
+			@inputText(prodForm("imageSmallUrl"), '_label -> "URL imagem pequena", 'required -> true)
+			</p>
+			<p class="text">
+			@inputText(prodForm("imageLargelUrl"), '_label -> "URL imagem grande", 'required -> true)
+			</p>
+			<p class="text">
+			@inputText(prodForm("commentsUrl"), '_label -> "URL comentario Facebook", 'required -> true)
+			</p>
+			
+			<fieldset>
+			<legend>Escolha uma categoria</legend>
+			@select(
+				prodForm("category.id"), 
+        		options(cats),
+        		'_label -> "Categorie")
+			<p class="text">
+			@checkbox(prodForm("feature"), '_label -> "Destaque")
+			</p>
+			</fieldset>
+			<hr>
+			<div><h6> -> * Campos obrigatorios<-</h6></div>
+			
+			<input type="submit" value="Novo Produto">
+			
+		</fieldset>
+	}
+}

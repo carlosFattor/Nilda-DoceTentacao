@@ -1,0 +1,80 @@
+@(msg: String, contForm: Form[models.Contact], breadcrumb: Map[String, String])
+
+@import helper._
+
+@main(msg, breadcrumb){
+	<div class="container" >
+		<div class="row">
+			@if(contForm.hasGlobalErrors) {
+			  <ul>
+			  @for(error <- contForm.globalErrors) {
+			    <li>@error.message</li>
+			  }
+			  </ul>
+			}
+			
+			@if(flash.containsKey("error")) {
+				<div class="alert alert-error">
+					@flash.get("error")
+				</div>
+			}
+
+
+			@if(flash.containsKey("success")) {
+				<div class="alert alert-success">
+					@flash.get("success")
+				</div>
+			}
+
+			<div class="col-xs-9 col-sm-6 col-md-6">
+			<h2>Contato</h2>
+			@form(controllers.contact.routes.ContactManager.send(), 'class -> "form"){
+				
+				<p class="name">
+					@inputText(contForm("name"), 'placeholder -> "Nome", 
+												 'required -> true, 
+												 '_label -> "Nome",
+												 'value -> "contForm.getName()")
+				</p>
+				
+				
+				<p class="email">
+					@inputText(contForm("email"), 'placeholder -> "mail@example.com",
+													'required -> true,
+													'_label -> "E-mail",
+													'value -> "contForm.getEmail()")
+				</p>
+				
+				<p class="web">
+					@inputText(contForm("webSite"), 'placeholder -> "www.example.com",
+													'_label -> "Website",
+													'value -> "contForm.getWebsite")
+					
+				</p>		
+			
+				<p class="text">
+					@textarea(contForm("textEmail"), 'placeholder -> "Escreva algo para nós",
+													'required -> true,
+													'_label -> null,
+													'value -> "contForm.getTextEmail()")
+				</p>				
+				<div><h6> * Campos obrigatorios.</h6></div>
+								
+				<p class="submit">
+					<input type="submit" value="Enviar" />
+				</p>
+			}
+		</div>
+		<div class="col-md-6 col-xs-4">
+			<aside>
+				<blockquote>
+				  <p>Agradecemos pelo interesse em entrar em contato conosco, fique a vontade para reclamações ou sugestões.
+					<br />Use tambêm este formulário para consultar nossos preços.</p>
+					<h3>Deixe sua sugestão!</h3>
+				  <footer>Nossa equipe agradece. <cite title="Obrigado!">Obrigado!</cite></footer>
+				</blockquote>
+			</aside>
+		</div>
+		</div>
+	</div>
+}

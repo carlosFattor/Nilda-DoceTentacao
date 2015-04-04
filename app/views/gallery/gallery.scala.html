@@ -1,0 +1,34 @@
+@(msg: String, galls: List[models.Gallery], breadcrumb: Map[String, String])
+
+@main(msg, breadcrumb){
+
+	<div>
+		<link rel="stylesheet" href="@routes.Assets.at("css/lightbox.css")">
+	</div>
+	
+	<div class="container">
+	<div class="row">
+	@if(galls.isEmpty()){
+		<p class="text-warning">Gallery is empty!</p>
+	}
+	
+	<ul>
+		@for(gal <- galls){
+		<li class="col-lg-3 col-md-3 col-sm-4 col-xs-5">
+				<a href="@routes.Assets.at("images/gallery/large/")@gal.getImage()" data-lightbox="roadtrip">
+					<img alt="" src="@routes.Assets.at("images/gallery/small/")@gal.getImage()" class="img-rounded " style="width: 80%;"></img>
+				</a>
+			</li>
+		}
+		</ul>
+		
+
+	</div>
+	</div>
+	
+	  
+    
+}
+	<div>
+    	<script src="@routes.Assets.at("js/lightbox.min.js")"></script>
+    </div> 

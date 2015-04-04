@@ -1,0 +1,18 @@
+@(msg: String, catForm: Form[models.Category])
+
+@import helper._
+
+@main_manager(msg){
+	@form(controllers.manager.routes.ManagerCategory.categoryUpdate(),'enctype -> "multipart/form-data"){
+		<fieldset>
+		<legend>@msg</legend>
+		@if(catForm("id").value()!= null){
+			@inputText(catForm("id"))
+		}
+		@inputText(catForm("name"), '_label -> "Nome", 'required -> true)
+		@inputText(catForm("description"), '_label -> "Descrição", 'required -> true)
+		@inputFile(catForm("image"), 'required -> true)
+		<input type="submit" value="Nova Categoria">
+		</fieldset>
+	}	
+}

@@ -1,0 +1,31 @@
+@(msg: String) 
+
+@main_manager(msg){
+	
+	<section class="tb-post-list">
+		<div class="tb-post-call">
+			<a href="@controllers.manager.routes.ManagerCategory.categoryList()">
+				<h2>Categoria</h2>
+				<figure>
+					<img class="call-img" alt="" src="@routes.Assets.at("images/icons/category.png")">
+				</figure>
+			</a>
+		</div>
+		<div class="tb-post-call">
+			<a href="@controllers.manager.routes.ManagerProduct.productList()">
+				<h2>Produto</h2>
+				<figure>
+					<img class="call-img" alt="" src="@routes.Assets.at("images/icons/product.png")">
+				</figure>
+			</a>
+		</div>
+		<div class="tb-post-call">
+			<a href="@controllers.manager.routes.ManagerGallery.galleryList()">
+				<h2>Galeria</h2>
+				<figure>
+					<img class="call-img" alt="" src="@routes.Assets.at("images/icons/gallery.png")">
+				</figure>
+			</a>
+		</div>
+	</section>
+}

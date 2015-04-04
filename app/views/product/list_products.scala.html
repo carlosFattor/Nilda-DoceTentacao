@@ -1,0 +1,19 @@
+@(msg: String, prods: List[models.Product], breadcrumb: Map[String, String])
+
+@main(msg, breadcrumb){
+	<div class="container" >
+		<div class="row">
+			@if(prods.isEmpty()){
+				<p class="text-warning">Lista de produtos vazia!</p>
+			}
+			@for(prod <- prods){
+				
+				<div class="col-lg-3 col-sm-4 col-6">
+					<a href="@controllers.category.routes.CategoryManager.product(prod.getId())" title="Image 1" >
+						<img src="@prod.getImageSmallUrl()" class="thumbnail img-responsive" />
+					</a>
+				</div>				
+			}
+		</div>
+	</div>
+}

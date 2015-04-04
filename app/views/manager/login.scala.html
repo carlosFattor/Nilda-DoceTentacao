@@ -1,0 +1,20 @@
+@(userForm: DynamicForm)
+
+@import helper._
+
+@main_manager("logar usuário"){
+	<fieldset>
+	<legend>Logar usuário.</legend>
+	@if(userForm.hasGlobalErrors){
+		<p class="error">
+			@userForm.globalError.message
+		</p>
+	}
+	
+	@form(controllers.manager.routes.ManagerLoggin.loga()){
+		@inputText(userForm("email"), 'required -> true)
+		@inputPassword(userForm("password"), 'required -> true)
+		<input type="submit" value="Login">
+	}
+	</fieldset>
+}

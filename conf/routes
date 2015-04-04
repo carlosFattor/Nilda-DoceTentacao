@@ -1,0 +1,67 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                           controllers.Application.index()
+
+#Category
+GET		/category					controllers.category.CategoryManager.list()
+
+
+#Product
+GET		/category/:id/products/		controllers.category.CategoryManager.products(id: Long)
+GET		/category/product/:id		controllers.category.CategoryManager.product(id: Long)
+
+#Gallery
+GET		/gallery					controllers.category.CategoryManager.gallery()
+
+#Contact
+GET		/contact					controllers.contact.ContactManager.create()
+POST	/contact/send				controllers.contact.ContactManager.send()
+
+#KnowMore
+GET		/learn						controllers.contact.ContactManager.learnMore()
+
+#News
+GET		/news						controllers.contact.ContactManager.news()
+
+#FindProducts
+GET		/find						controllers.category.CategoryManager.findProducts()
+
+#MANAGER CATEGORY
+GET		/manager					controllers.manager.Manager.index()
+GET		/manager/category			controllers.manager.ManagerCategory.categoryList()
+GET		/manager/category/add		controllers.manager.ManagerCategory.saveCategory()
+GET		/manager/category/:id 		controllers.manager.ManagerCategory.categoryUpdateFind(id: Long)
+POST	/manager/category/update	controllers.manager.ManagerCategory.categoryUpdate()
+GET		/manager/category/delete/:id controllers.manager.ManagerCategory.categoryDelete(id: Long)
+
+#MANAGER PRODUCT
+GET		/manager/product			controllers.manager.ManagerProduct.productList()
+GET		/manager/product/save		controllers.manager.ManagerProduct.saveProduct()
+POST	/manager/product/add		controllers.manager.ManagerProduct.productUpdate()
+GET		/manager/product/delete		controllers.manager.ManagerProduct.productDelete(id: Long)
+GET		/manager/product/:id		controllers.manager.ManagerProduct.productUpdateFind(id: Long)
+
+#MANANGER GALLERY
+GET		/manager/gallery			controllers.manager.ManagerGallery.galleryList()
+GET		/manager/gallery/save		controllers.manager.ManagerGallery.save()
+POST	/manager/gallery/add		controllers.manager.ManagerGallery.update()
+GET		/manager/gallery/delete/:id	controllers.manager.ManagerGallery.delete(id: Long)
+GET		/manager/gallery/update/:id	controllers.manager.ManagerGallery.findToUpdate(id: Long)
+
+#MANAGER USER
+GET		/manager/user				controllers.manager.ManagerUser.list()
+GET		/manager/user/save			controllers.manager.ManagerUser.save()
+POST	/manager/user/add			controllers.manager.ManagerUser.update()
+GET		/manager/user/delete/:id	controllers.manager.ManagerUser.delete(id: Long)
+GET		/manager/user/update/:id	controllers.manager.ManagerUser.updateFind(id: Long)
+
+#LOGGING
+GET		/manager/user/login			controllers.manager.ManagerLoggin.login()
+POST	/manager/user/logon			controllers.manager.ManagerLoggin.loga()
+GET		/manager/user/logout		controllers.manager.ManagerLoggin.logout()
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)

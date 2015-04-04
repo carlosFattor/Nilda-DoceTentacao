@@ -1,0 +1,19 @@
+@(msg: String, galForm: Form[models.Gallery])
+
+@import helper._
+
+@main_manager(msg){
+	@form(controllers.manager.routes.ManagerGallery.update(),'enctype -> "multipart/form-data"){
+	<fieldset>
+		<legend>@msg</legend>
+		@if(galForm("id").value()!= null){
+			@inputText(galForm("id"))
+		}
+		
+		@inputText(galForm("name"))
+		@inputText(galForm("description"))
+		@inputFile(galForm("image"))
+		<input type="submit" value="Novo item">
+	</fieldset>
+	}
+}

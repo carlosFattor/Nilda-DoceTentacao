@@ -1,0 +1,47 @@
+@(msg: String, prods: List[models.Product])
+
+@main_manager(msg){
+
+<div class="container">
+	<div class="page-header hidden-xs">
+		<h1>Produtos cadastrados.</h1>
+		
+	</div>
+	<div class="row">
+		@if(flash.containsKey("fail")) {
+				<div class="alert alert-danger">
+					@flash.get("fail")
+				</div>
+		}
+		@if(flash.containsKey("success")) {
+				<div class="alert alert-success">
+					@flash.get("success")
+				</div>
+		}
+		@if(prods.isEmpty()){
+			<p class="text-warning">Produto vazio!</p>
+		} 
+	</div>
+	<div class="col-12">
+		<a href="@controllers.manager.routes.ManagerProduct.saveProduct()" type="button" class="btn btn-success">Criar</a>
+	</div >
+	<br>
+	<br>
+	@for(prod <- prods){
+		<div class="col-md-3 col-sm-4 col-xs-8">
+			<div class="thumbnail">
+				<div style="margin-left: 25px;"></div>
+				<a class="thumbnail">
+					<img alt="" src="@prod.getImageSmallUrl()">
+				</a>
+				<p>@prod.getName()</p>
+				<div>
+					<a href="@controllers.manager.routes.ManagerProduct.productUpdateFind(prod.getId)" type="button" class="btn btn-primary">Editar</a>
+					<a href="@controllers.manager.routes.ManagerProduct.productDelete(prod.getId)" type="button" class="btn btn-danger">Excluir</a>
+				</div>
+			</div>
+		</div>
+		
+	}
+</div>
+}

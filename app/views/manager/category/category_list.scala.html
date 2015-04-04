@@ -1,0 +1,48 @@
+@(msg: String, cats: List[models.Category]) 
+
+@main_manager(msg){
+
+<div class="container">
+	<div class="page-header hidden-xs">
+		<h1>Categorias cadastradas.</h1>
+		
+	</div>
+	<div class="row">
+		@if(flash.containsKey("fail")) {
+				<div class="alert alert-danger">
+					@flash.get("fail")
+				</div>
+		}
+		@if(flash.containsKey("success")) {
+				<div class="alert alert-success">
+					@flash.get("success")
+				</div>
+		}
+		@if(cats.isEmpty()){
+			<p class="text-warning">Categoria vazia!</p>
+		} 
+		<div class="col-12">
+			<a href="@controllers.manager.routes.ManagerCategory.saveCategory()" type="button" class="btn btn-success">Criar</a>
+		</div >
+		<br>
+		<br>
+		@for(cat <- cats){
+		<div class="col-md-3 col-sm-4 col-xs-8">
+			<div class="thumbnail">
+				<div style="margin-left: 25px;"></div>
+				<a class="thumbnail"> 
+					<img src="@routes.Assets.at("images/category/")@cat.getImage()"	
+					class="img-rounded"	data-placement="top" title="@cat.getDescription()" 
+					style="width: 90%;">
+				</a>
+				<p>@cat.getName()</p>
+				<div>
+					<a href="@controllers.manager.routes.ManagerCategory.categoryUpdateFind(cat.getId)" type="button" class="btn btn-primary">Editar</a>
+					<a href="@controllers.manager.routes.ManagerCategory.categoryDelete(cat.getId)" type="button" class="btn btn-danger">Excluir</a>
+				</div>
+			</div>
+		</div>
+		}
+	</div>
+</div>
+}

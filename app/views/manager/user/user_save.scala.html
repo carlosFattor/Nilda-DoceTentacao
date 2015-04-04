@@ -1,0 +1,30 @@
+@(msg: String, userForm: Form[models.User])
+
+@import helper._
+
+@main_manager(msg){
+
+	@form(controllers.manager.routes.ManagerUser.update(), 'class -> "form"){
+		<fieldset>
+		<legend>@msg</legend>
+			@if(userForm("id").value()!= null){
+				@inputText(userForm("id"))
+			}
+			<p class="text">
+				@inputText(userForm("name"), '_label -> "Nome", 'required -> true)
+			</p>
+			<p calss="text>
+				@inputText(userForm("email"), 'type -> "email", '_label -> "E-mail", 'required -> true)
+			</p>
+			<p class="text">
+				@inputPassword(userForm("password"), '_label -> "Password", 'required -> true)
+			</p>
+			<p class="text">
+				@textarea(userForm("description"), '_label -> "Descrição")
+			</p>
+			
+			<button type="submit" class="btn btn-primary" >Cadastrar</button>
+		</fieldset>
+	}
+	
+}

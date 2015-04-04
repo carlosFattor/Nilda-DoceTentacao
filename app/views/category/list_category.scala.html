@@ -1,0 +1,29 @@
+@(msg: String, cats: List[models.Category], breadcrumb: Map[String, String])
+
+@main(msg, breadcrumb){
+	<div class="container" >
+		<div class="page-header hidden-xs">
+			<h1>Nossos produtos!</h1>
+			<p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+		</div>
+		<div class="row">
+			@if(cats.isEmpty()){
+				<p class="text-warning">Categoria vazia!</p>
+			}
+			@for(cat <- cats){
+				<div class="col-md-3 col-sm-4 col-xs-8">
+						<div class="thumbnail">		
+						<div style="margin-left: 25px;">		
+						</div>
+						<a href="@controllers.category.routes.CategoryManager.products(cat.getId)" class="thumbnail">
+							<img src="@routes.Assets.at("images/category/")@cat.getImage()"	
+							class="img-rounded" data-placement="top" title="@cat.getDescription()" 
+							style="width: 90%;">
+						</a>
+						<p>@cat.getName()</p>
+					</div>
+				</div>
+			}
+		</div>
+	</div>
+}
