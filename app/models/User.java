@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-
 import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.Required;
 
@@ -18,8 +17,8 @@ import play.data.validation.Constraints.Required;
 	@NamedQuery(name="user.findLogin", query="SELECT u FROM User u WHERE u.email = :email and u.password = :password")
 })
 public class User implements Serializable{
-
-	private static final long serialVersionUID = 1L;
+	
+	private static final long serialVersionUID = -6213283631474328762L;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

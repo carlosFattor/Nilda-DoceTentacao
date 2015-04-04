@@ -14,8 +14,8 @@ import play.data.validation.Constraints.Required;
 
 @Entity
 public class Category implements Serializable{
-
-	private static final long serialVersionUID = 1L;
+	
+	private static final long serialVersionUID = -8974257721833384665L;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

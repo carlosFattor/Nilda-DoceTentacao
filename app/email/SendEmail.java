@@ -8,7 +8,7 @@ import play.twirl.api.Html;
 public class SendEmail {
 	
 	private static String msg = "Enviando de email-. Contato";
-	private static String emailAdmin = "nildadoce-tentacao@hotmail.com";
+	private static String emailAdmin = "nilda.docetentacao@gmail.com";
 	
 	public static void newContact(Contact contact){
 		final Email email = new Email();

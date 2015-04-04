@@ -1,23 +1,18 @@
 package controllers.manager;
 
 import image.ScalePane;
-
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-
 import javax.swing.JFrame;
 import javax.swing.UIManager;
-
 import models.Gallery;
-
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
