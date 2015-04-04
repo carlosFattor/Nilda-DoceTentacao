@@ -1,5 +1,5 @@
 git pull
-play clean compile stage
+activator clean compile stage
 
 cd target/universal/stage
 sudo env PATH=$PATH play stop
