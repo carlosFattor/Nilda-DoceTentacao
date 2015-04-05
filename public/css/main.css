@@ -1,3 +1,5 @@
+
+
 h1, h2, h3 { 
 	font-family: 'Lobster', 'cursive', serif; 
 	font-size: xx-large;
@@ -19,9 +21,13 @@ p {
 }
 
 #contact p {
-	font-size: 12px;
+	font-size: 10px;
 	font-family: sans-serif;
-	margin: 0px;
+	margin: -2px;
+}
+
+#contact a img {
+	margin-right: 10px;
 }
 
 .navbar-brand {
@@ -142,10 +148,6 @@ dt {
 
 /* Non-plugin styles */
 
-* { 
-  margin: 0; 
-  padding: 0; 
-}
 
 .slider li img {
 	height: 200px;
@@ -183,3 +185,4 @@ dt {
 }
 
 .slide-nav li a.active { color: #DEBB1E; }
+

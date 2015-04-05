@@ -16,53 +16,58 @@ import play.mvc.Result;
 import service.UserServiceImp;
 import utils.CryptSHA1;
 
-public class ManagerLoggin extends Controller{
+public class ManagerLoggin extends Controller {
 
-	private static Logger LOGGER = LoggerFactory.getLogger(ManagerLoggin.class.getName());
-	
-	public static Result login(){
+	private static Logger LOGGER = LoggerFactory.getLogger(ManagerLoggin.class
+			.getName());
+
+	public static Result login() {
 		DynamicForm form = new DynamicForm().bindFromRequest();
 		return ok(views.html.manager.login.render(form));
 	}
-	
+
 	@Transactional(readOnly = true)
-	public static Result loga(){
+	public static Result loga() {
 		DynamicForm form = new DynamicForm().bindFromRequest();
 		String email = form.data().get("email");
 		String pass = form.data().get("password");
-		
-		Optional<User> user = exist(email, CryptSHA1.cipher(pass).get());
-				
-		
-		if(user.isPresent()){
-			session().put("email", email);
-			return redirect(controllers.manager.routes.Manager.index());
-		}else{
+
+		Optional<User> user = null;
+		try {
+			user = exist(email, CryptSHA1.cipher(pass).get());
+		} catch (Exception e) {
 			DynamicForm formError = form.fill(form.data());
 			formError.reject("Login e/ou senha não existem");
 			return forbidden(views.html.manager.login.render(formError));
 		}
+
+		session().put("email", email);
+		return redirect(controllers.manager.routes.Manager.index());
+
 	}
-	
-	public static Result logout(){
+
+	public static Result logout() {
 		session().clear();
 		return redirect(controllers.manager.routes.ManagerLoggin.login());
 	}
-	
-	private static Optional<User> exist(String email, String password){
+
+	private static Optional<User> exist(String email, String password)
+			throws Exception {
 		Map<String, Object> param = new HashMap<>();
 		param.put("email", email);
 		param.put("password", password);
-		List<User> user = null;
+		Optional<List<User>> users = null;
 		try {
-			user = new UserServiceImp(User.class).findByNamedQuery("user.findLogin", param);
+			users = Optional.ofNullable(new UserServiceImp(User.class)
+					.findByNamedQuery("usuario.findLogin", param));
+			if (users.isPresent()) {
+				return Optional.ofNullable(users.get().get(0));
+			} else {
+				throw new IllegalAccessError();
+			}
 		} catch (Exception e) {
 			LOGGER.warn("Error on try find user");
-		}
-		if(!user.isEmpty()){
-			return Optional.ofNullable(user.get(0));
-		} else{
-			return Optional.empty();
+			throw new Exception("", e);
 		}
 	}
 }

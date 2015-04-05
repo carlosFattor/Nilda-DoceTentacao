@@ -12,9 +12,9 @@ import javax.persistence.NamedQuery;
 import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.Required;
 
-@Entity
+@Entity(name="usuario")
 @NamedQueries({
-	@NamedQuery(name="user.findLogin", query="SELECT u FROM User u WHERE u.email = :email and u.password = :password")
+	@NamedQuery(name="usuario.findLogin", query="SELECT u FROM usuario u WHERE u.email = :email and u.password = :password")
 })
 public class User implements Serializable{
 	
