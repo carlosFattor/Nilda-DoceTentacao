@@ -1,7 +1,7 @@
 @(msg: String, contForm: Form[models.Contact], breadcrumb: Map[String, String])
 
 @import helper._
-
+<meta charset="UTF-8">
 @main(msg, breadcrumb){
 	<div class="container" >
 		<div class="row">
@@ -40,6 +40,7 @@
 				
 				<p class="email">
 					@inputText(contForm("email"), 'placeholder -> "mail@example.com",
+													'type -> "email",
 													'required -> true,
 													'_label -> "E-mail",
 													'value -> "contForm.getEmail()")

@@ -3,10 +3,12 @@ package controllers.contact;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import models.Contact;
 import models.EmailNews;
 import play.data.Form;
 import play.db.jpa.Transactional;
+import play.libs.F;
 import play.libs.F.Function;
 import play.libs.F.Function0;
 import play.libs.F.Promise;
@@ -58,13 +60,15 @@ public class ContactManager extends Controller {
 	}
 	
 	public static Promise<Result> send() throws IOException{
-		Form<Contact> frmFromReq = contForm.bindFromRequest();
+		Form<Contact> frmFromReq = Form.form(Contact.class).bindFromRequest();
 
 		if(frmFromReq.hasErrors()){
-			badRequest(views.html.contact.contact.render(msg, frmFromReq, Breadcrumb.getBreadcrumbs("Contact")));
+			return F.Promise.pure(badRequest(views.html.contact.contact.render(msg, frmFromReq, Breadcrumb.getBreadcrumbs("Contact"))));
 		}
 		Contact contact = frmFromReq.get();
-
+		if(validateEmail(contact.getEmail())){
+			return F.Promise.pure(badRequest(views.html.contact.contact.render(msg, frmFromReq, Breadcrumb.getBreadcrumbs("Contact"))));
+		}
 		sendEmail2Sender(contact);
 		
 		flash("success", "Menssagem enviada com sucesso!");
@@ -73,7 +77,6 @@ public class ContactManager extends Controller {
 
 	private static void sendEmail2Sender(Contact contact){
 		Promise<Void> sendEmail2Sender = Promise.promise(new Function0<Void>() {
-
 			@Override
 			public Void apply() throws Throwable {
 				SendEmail.newContact2Sender(contact);

@@ -20,6 +20,11 @@ p {
 	color: white;
 }
 
+.error {
+	color: red;
+	text-shadow:4px 4px 4px #DAC0C0;
+}
+
 #contact p {
 	font-size: 10px;
 	font-family: sans-serif;
