@@ -11,6 +11,7 @@ libraryDependencies ++= Seq(
   javaJpa,
   cache,
   javaWs,
+  "com.amazonaws" % "aws-java-sdk" % "1.9.30",
   "javax.mail" % "mail" % "1.4.1",
   "com.typesafe.play.plugins" %% "play-plugins-mailer" % "2.3.0",
   "postgresql" % "postgresql" % "9.1-901-1.jdbc4",
@@ -28,5 +29,3 @@ val _ = initialize.value
 if (sys.props("java.specification.version") != "1.8")
 sys.error("Java 8 is required for this project.")
 }
-
-fork in run := true

@@ -27,7 +27,7 @@ public class ManagerLoggin extends Controller {
 	}
 
 	@Transactional(readOnly = true)
-	public static Result loga() {
+	public static Result logon() {
 		DynamicForm form = new DynamicForm().bindFromRequest();
 		String email = form.data().get("email");
 		String pass = form.data().get("password");

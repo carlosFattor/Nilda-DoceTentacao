@@ -16,7 +16,7 @@
 						<div style="margin-left: 25px;">		
 						</div>
 						<a href="@controllers.category.routes.CategoryManager.products(cat.getId)" class="thumbnail">
-							<img src="@routes.Assets.at("images/category/")@cat.getImage()"	
+							<img src="@cat.getUrl"	
 							class="img-rounded" data-placement="top" title="@cat.getDescription()" 
 							style="width: 90%;">
 						</a>

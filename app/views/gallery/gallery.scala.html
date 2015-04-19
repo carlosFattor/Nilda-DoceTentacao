@@ -15,8 +15,8 @@
 	<ul>
 		@for(gal <- galls){
 		<li class="col-lg-3 col-md-3 col-sm-4 col-xs-5">
-				<a href="@routes.Assets.at("images/gallery/large/")@gal.getImage()" data-lightbox="roadtrip">
-					<img alt="" src="@routes.Assets.at("images/gallery/small/")@gal.getImage()" class="img-rounded " style="width: 80%;"></img>
+				<a href="@gal.getUrlLarge()" data-lightbox="roadtrip">
+					<img alt="" src="@gal.getUrlSmall()" class="img-rounded " style="width: 80%;"></img>
 				</a>
 			</li>
 		}

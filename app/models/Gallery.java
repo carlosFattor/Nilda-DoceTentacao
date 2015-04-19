@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.hibernate.validator.constraints.URL;
+
 import play.data.validation.Constraints.Required;
 
 @Entity
@@ -23,6 +25,10 @@ public class Gallery implements Serializable{
     @Required
     @Column
     private String description;
+    @URL
+	private String urlSmall;
+    @URL
+    private String urlLarge;
     
     private String image;
     
@@ -52,6 +58,19 @@ public class Gallery implements Serializable{
 	}
 	public void setImage(String image) {
 		this.image = image;
+	}
+	
+	public String getUrlSmall() {
+		return urlSmall;
+	}
+	public void setUrlSmall(String urlSmall) {
+		this.urlSmall = urlSmall;
+	}
+	public String getUrlLarge() {
+		return urlLarge;
+	}
+	public void setUrlLarge(String urlLarge) {
+		this.urlLarge = urlLarge;
 	}
 	@Override
 	public int hashCode() {

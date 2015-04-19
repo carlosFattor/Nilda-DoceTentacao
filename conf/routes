@@ -34,14 +34,14 @@ GET		/manager					controllers.manager.Manager.index()
 GET		/manager/category			controllers.manager.ManagerCategory.categoryList()
 GET		/manager/category/add		controllers.manager.ManagerCategory.saveCategory()
 GET		/manager/category/:id 		controllers.manager.ManagerCategory.categoryUpdateFind(id: Long)
-POST	/manager/category/update	controllers.manager.ManagerCategory.categoryUpdate()
 GET		/manager/category/delete/:id controllers.manager.ManagerCategory.categoryDelete(id: Long)
+POST	/manager/category/update	controllers.manager.ManagerCategory.categoryUpdate()
 
 #MANAGER PRODUCT
 GET		/manager/product			controllers.manager.ManagerProduct.productList()
 GET		/manager/product/save		controllers.manager.ManagerProduct.saveProduct()
 POST	/manager/product/add		controllers.manager.ManagerProduct.productUpdate()
-GET		/manager/product/delete		controllers.manager.ManagerProduct.productDelete(id: Long)
+GET		/manager/product/delete/:id	controllers.manager.ManagerProduct.productDelete(id: Long)
 GET		/manager/product/:id		controllers.manager.ManagerProduct.productUpdateFind(id: Long)
 
 #MANANGER GALLERY
@@ -60,7 +60,7 @@ GET		/manager/user/update/:id	controllers.manager.ManagerUser.updateFind(id: Lon
 
 #LOGGING
 GET		/manager/user/login			controllers.manager.ManagerLoggin.login()
-POST	/manager/user/logon			controllers.manager.ManagerLoggin.loga()
+POST	/manager/user/logon			controllers.manager.ManagerLoggin.logon()
 GET		/manager/user/logout		controllers.manager.ManagerLoggin.logout()
 
 # Map static resources from the /public folder to the /assets URL path

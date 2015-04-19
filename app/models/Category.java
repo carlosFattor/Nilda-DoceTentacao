@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.hibernate.validator.constraints.URL;
+
 import play.data.validation.Constraints.Required;
 
 @Entity
@@ -22,6 +24,8 @@ public class Category implements Serializable{
 	private long id;
 	@Required
 	private String name;
+	@URL
+	private String url;
 	@Required
 	@Column
 	private String description;
@@ -72,6 +76,14 @@ public class Category implements Serializable{
 
 	public void setProducts(List<Product> products) {
 		this.products = products;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	@Override

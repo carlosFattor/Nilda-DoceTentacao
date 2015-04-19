@@ -2,16 +2,16 @@
 
 @import helper._
 
-@main_manager("logar usu√°rio"){
+@main_manager("logar usu·rio"){
 	<fieldset>
-	<legend>Logar usu√°rio.</legend>
+	<legend>Logar usu·rio.</legend>
 	@if(userForm.hasGlobalErrors){
 		<p class="error">
 			@userForm.globalError.message
 		</p>
 	}
 	
-	@form(controllers.manager.routes.ManagerLoggin.loga()){
+	@form(controllers.manager.routes.ManagerLoggin.logon()){
 		@inputText(userForm("email"), 'required -> true)
 		@inputPassword(userForm("password"), 'required -> true)
 		<input type="submit" value="Login">

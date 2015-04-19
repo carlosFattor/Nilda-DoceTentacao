@@ -16,14 +16,15 @@ public class ScalePane extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private BufferedImage original;
     private BufferedImage scaled;
+    private BufferedImage image;
 
-    public ScalePane(String path, String name) {
+    public ScalePane(File file) {
         try {
-            original = ImageIO.read(new File(path+name));
+            original = ImageIO.read(file.getAbsoluteFile());
             scaled = getScaledInstanceToFit(original, new Dimension(original.getWidth()/5, original.getHeight()/5));
             
 
-            BufferedImage image = new BufferedImage(original.getWidth()/3, original.getHeight()/3, BufferedImage.TYPE_INT_RGB);
+            image = new BufferedImage(original.getWidth()/3, original.getHeight()/3, BufferedImage.TYPE_INT_RGB);
             Graphics2D g2d = image.createGraphics();
             g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
             g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
@@ -31,14 +32,22 @@ public class ScalePane extends JFrame{
             g2d.drawImage(original, 0, 0, original.getWidth()/2, original.getHeight()/2, this);
             g2d.dispose();
 
-            ImageIO.write(image, "jpg", new File(path.replace("large", "small"),name));
-
+            //ImageIO.write(image, "jpg", new File(path.replace("large", "small"),name));
+            
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
     
-    @Override
+    public BufferedImage getImage() {
+		return image;
+	}
+
+	public void setImage(BufferedImage image) {
+		this.image = image;
+	}
+
+	@Override
     public Dimension getPreferredSize() {
 
         Dimension size = super.getPreferredSize();
@@ -144,5 +153,4 @@ public class ScalePane extends JFrame{
         }
         return scale;
     }
-    
 }

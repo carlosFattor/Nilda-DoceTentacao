@@ -1,144 +1,153 @@
 package controllers.manager;
 
 import image.ScalePane;
-import java.awt.BorderLayout;
+
 import java.awt.EventQueue;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-import javax.swing.JFrame;
-import javax.swing.UIManager;
+
+import javax.imageio.ImageIO;
+
 import models.Gallery;
-import org.apache.commons.io.FileUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
-import play.mvc.Http.MultipartFormData;
-import play.mvc.Http.MultipartFormData.FilePart;
+import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.With;
 import security.PlayAuthenticatedSecured;
 import service.GalleryServiceImp;
 import utils.CleanCache;
+import utils.S3File;
 
 @With(PlayAuthenticatedSecured.class)
-public class ManagerGallery extends Controller{
+public class ManagerGallery extends Controller {
 
-	private final static Logger LOGGER = LoggerFactory.getLogger(ManagerGallery.class.getName()); 
-	private static String msg1="Galeria";
+	private final static Logger LOGGER = LoggerFactory
+			.getLogger(ManagerGallery.class.getName());
+	private static String msg1 = "Galeria";
 	private static String msg2 = "Salvar item para galeria";
 	private static List<Gallery> gals;
 	private static Form<Gallery> galleryForm = Form.form(Gallery.class);
-	private static String path = "public/images/gallery";
-	
+	private static String pathSmall = "public/images/gallery/small/";
+	private static String pathLarge = "public/images/gallery/large/";
+
 	@Transactional(readOnly = true)
-	public static Result galleryList(){
+	public static Result galleryList() {
 		gals = new GalleryServiceImp(Gallery.class).findAll();
 		return ok(views.html.manager.gallery.gallery_list.render(msg1, gals));
 	}
-	
+
 	@Transactional
-	public static Result save(){
-		return ok(views.html.manager.gallery.gallery_save.render(msg2, galleryForm));
+	public static Result save() {
+		return ok(views.html.manager.gallery.gallery_save.render(msg2,
+				galleryForm));
 	}
-	
+
 	@Transactional
-	public static Result update(){
+	public static Result update() 
+			throws IOException, IllegalStateException {
+		
 		Form<Gallery> formFromRequest = galleryForm.bindFromRequest();
-		
-		if(formFromRequest.hasErrors()) return badRequest(views.html.manager.gallery.gallery_save.render(msg2, formFromRequest));
-		
-		File gallery;
+
+		if (formFromRequest.hasErrors())
+			return badRequest(views.html.manager.gallery.gallery_save.render(
+					msg2, formFromRequest));
+
 		Gallery gal = formFromRequest.get();
-		
-		try {
-			gallery = saveCategoryImage();
-			
-		} catch (IOException e) {
-			LOGGER.warn("Error on try Update {0}", gal.getName());
-            flash("fail", "error trying update gallery");
-            return badRequest(views.html.manager.gallery.gallery_save.render(msg2, formFromRequest));
-		}
-		gal.setImage(gallery.getName());
+		Http.MultipartFormData.FilePart uploadFilePart = request().body()
+				.asMultipartFormData().getFile("image");
+
+		final String name = System.currentTimeMillis() + "_"
+				+ uploadFilePart.getFilename();
+		S3File s3File = new S3File();
+		gal.setImage(name);
+		gal.setUrlLarge(s3File.getPartiaPath() + pathLarge + name);
+		gal.setUrlSmall(s3File.getPartiaPath() + pathSmall + name);
 		gal = new GalleryServiceImp(Gallery.class).save(gal);
+
 		flash("success", "update/save category OK");
-        LOGGER.info("Success on update object {0}", gal.getName());
-        CleanCache.invalidate("GalList");
-        resizeImage(gal.getImage());
+
+		LOGGER.info("Success on update object {0}", gal.getName());
+
+		CleanCache.invalidate("GalList");
+
+		Runnable task = () -> {	
+				resizeImage(name, uploadFilePart.getFile()); 
+			};
+		new Thread(task).start();
+		
 		return redirect(routes.ManagerGallery.galleryList());
 	}
-	
-	private static File saveCategoryImage() throws IOException{
-    	MultipartFormData body = request().body().asMultipartFormData();
-    	FilePart filePart = body.getFile("image");
-    	File category = filePart.getFile();
-    	File destination = fileToDestination(filePart);
-    	FileUtils.moveFile(category, destination);
-    	
-    	return destination;
-    }
-	
-	private static void resizeImage(String nameFile){
-		EventQueue.invokeLater(new Runnable(){
-			@Override
-			public void run(){
-				
-				try {
-					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				
-				JFrame frame = new JFrame("Testing");
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				frame.setLayout(new BorderLayout());
-				frame.add(new ScalePane(path.concat("/large/").toString(), nameFile));
-                frame.pack();
-                frame.setLocationRelativeTo(null);
-                frame.setVisible(true);
-			}
-		});
+
+	private static void resizeImage(String nameFile,final File file)
+			throws IllegalStateException  {
+
+		S3File s3FileLarge = new S3File()
+				.setPath(pathLarge)
+				.setNameFile(nameFile)
+				.setFile(file).save();
+
+		try {
+			ScalePane scalePane = new ScalePane(file);
+			File outputFile = File.createTempFile(nameFile, ".tmp");
+			ImageIO.write(scalePane.getImage(), "jpg", outputFile);
+			S3File s3FileSmall = new S3File()
+				.setPath(pathSmall)
+				.setNameFile(nameFile)
+				.setFile(outputFile).save();
+
+		} catch (IllegalStateException e) {
+			LOGGER.warn("Impossible save image", e);
+			throw new IllegalStateException("");
+		} catch (IOException e) {
+			LOGGER.warn("Impossible find file", e);
+		}
 	}
-	
-	private static File fileToDestination(FilePart filePart) {
-		return new File(path+"/large/", System.currentTimeMillis()+"_"+filePart.getFilename());
-	}
-	
+
 	@Transactional
-	public static Result delete(Long id){
+	public static Result delete(Long id) {
 		Optional<Gallery> gal = new GalleryServiceImp(Gallery.class).find(id);
-		if(gal.isPresent()){
+		if (gal.isPresent()) {
 			deleteGalleryImageSmall(gal.get().getImage());
 			deleteGalleryImageLarge(gal.get().getImage());
 			new GalleryServiceImp(Gallery.class).remove(gal.get());
 			flash("success", "delete gallery OK");
-		}else{
+		} else {
 			flash("fail", "error trying delete gallery");
 		}
 		return redirect(routes.ManagerGallery.galleryList());
 	}
-	
-	private static void deleteGalleryImageSmall(String name){
-    	File file = new File(path+"/small/"+name);
-    	file.delete();
-    }
-	
-	private static void deleteGalleryImageLarge(String name){
-    	File file = new File(path+"/large/"+name);
-    	file.delete();
-    }
-	
+
+	private static void deleteGalleryImageSmall(String name) {
+		S3File s3FileSmall = new S3File()
+		.setPath(pathSmall)
+		.setNameFile(name)
+		.delete();
+	}
+
+	private static void deleteGalleryImageLarge(String name) {
+		S3File s3FileSmall = new S3File()
+		.setPath(pathLarge)
+		.setNameFile(name)
+		.delete();
+	}
+
 	@Transactional
-	public static Result findToUpdate(Long id){
-		
+	public static Result findToUpdate(Long id) {
+
 		Optional<Gallery> gal = new GalleryServiceImp(Gallery.class).find(id);
-		if(gal.isPresent()){
+		if (gal.isPresent()) {
 			Form<Gallery> formFromRequest = galleryForm.fill(gal.get());
-			return ok(views.html.manager.gallery.gallery_save.render(msg2, formFromRequest));
-		}else{
+			return ok(views.html.manager.gallery.gallery_save.render(msg2,
+					formFromRequest));
+		} else {
 			flash("fail", "error trying find gallery");
 			return redirect(routes.ManagerGallery.galleryList());
 		}
