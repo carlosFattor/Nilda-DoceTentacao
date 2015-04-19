@@ -72,3 +72,4 @@ $RECYCLE.BIN/
 .settings/org.scala-ide.sdt.core.prefs
 *.prefs
 RUNNING_PID
+*.prefs
