@@ -31,8 +31,6 @@ public class ScalePane extends JFrame{
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g2d.drawImage(original, 0, 0, original.getWidth()/2, original.getHeight()/2, this);
             g2d.dispose();
-
-            //ImageIO.write(image, "jpg", new File(path.replace("large", "small"),name));
             
         } catch (IOException ex) {
             ex.printStackTrace();
