@@ -19,7 +19,8 @@ libraryDependencies ++= Seq(
   "javax.mail" % "mail" % "1.4.1",
   "commons-io" % "commons-io" % "2.3",
   "com.typesafe.play" %% "play-mailer" % "2.4.0",
-  "org.apache.commons" % "commons-email" % "1.3.3"
+  "org.apache.commons" % "commons-email" % "1.3.3",
+  "org.imgscalr" % "imgscalr-lib" % "4.2"
 )
 
 javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint")

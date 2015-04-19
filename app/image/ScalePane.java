@@ -11,6 +11,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
+import org.imgscalr.Scalr;
+
 public class ScalePane extends JFrame{
 
 	private static final long serialVersionUID = 1L;
@@ -21,16 +23,17 @@ public class ScalePane extends JFrame{
     public ScalePane(File file) {
         try {
             original = ImageIO.read(file.getAbsoluteFile());
-            scaled = getScaledInstanceToFit(original, new Dimension(original.getWidth()/5, original.getHeight()/5));
+            //scaled = getScaledInstanceToFit(original, new Dimension(original.getWidth()/5, original.getHeight()/5));
             
+            image = Scalr.resize(original, Scalr.Method.SPEED, Scalr.Mode.FIT_TO_WIDTH, 150, 100, Scalr.OP_ANTIALIAS);
 
-            image = new BufferedImage(original.getWidth()/3, original.getHeight()/3, BufferedImage.TYPE_INT_RGB);
-            Graphics2D g2d = image.createGraphics();
-            g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-            g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2d.drawImage(original, 0, 0, original.getWidth()/2, original.getHeight()/2, this);
-            g2d.dispose();
+//            image = new BufferedImage(original.getWidth()/3, original.getHeight()/3, BufferedImage.TYPE_INT_RGB);
+//            Graphics2D g2d = image.createGraphics();
+//            g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+//            g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+//            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+//            g2d.drawImage(original, 0, 0, original.getWidth()/2, original.getHeight()/2, this);
+//            g2d.dispose();
             
         } catch (IOException ex) {
             ex.printStackTrace();

@@ -88,7 +88,6 @@ public class ManagerGallery extends Controller {
 
 	private static void resizeImage(String nameFile,final File file)
 			throws IllegalStateException  {
-		System.setProperty("java.awt.headless","true"); 
 		S3File s3FileLarge = new S3File()
 				.setPath(pathLarge)
 				.setNameFile(nameFile)
