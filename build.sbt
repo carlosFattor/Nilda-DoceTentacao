@@ -11,6 +11,7 @@ libraryDependencies ++= Seq(
   javaJpa,
   cache,
   javaWs,
+  filters,
   "com.amazonaws" % "aws-java-sdk" % "1.9.30",
   "javax.mail" % "mail" % "1.4.1",
   "com.typesafe.play.plugins" %% "play-plugins-mailer" % "2.3.0",

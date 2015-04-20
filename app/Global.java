@@ -4,6 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import play.GlobalSettings;
+import play.api.mvc.EssentialFilter;
+import play.filters.gzip.GzipFilter;
+import play.GlobalSettings;
 import play.api.Application;
 import play.libs.F.Promise;
 import play.mvc.Action;
@@ -19,6 +22,11 @@ public class Global extends GlobalSettings {
 
 	private static Logger LOGGER = LoggerFactory.getLogger(ManagerLoggin.class.getName());
 
+	@SuppressWarnings("unchecked")
+	public <T extends EssentialFilter> Class<T>[] filters() {
+        return new Class[]{GzipFilter.class};
+    }
+	
 	public void onStart(Application app) {
 		LOGGER.info("Application has started");
 	}
