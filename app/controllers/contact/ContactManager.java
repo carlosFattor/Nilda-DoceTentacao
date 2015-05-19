@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import ch.qos.logback.classic.util.ContextInitializer;
 import models.Contact;
 import models.EmailNews;
 import play.data.Form;
@@ -41,7 +42,6 @@ public class ContactManager extends Controller {
 			String email = Form.form().bindFromRequest().get("news");
 			if(validateEmail(email)){
 				new NewsServiceImp(EmailNews.class).save(new EmailNews(email, java.time.LocalDate.now()));
-				flash("success", "Cadastro efetuado com sucesso!");
 			} else {
 				flash("successfail", "Email incorreto!");
 			}

@@ -1,10 +1,6 @@
 package controllers.category;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import models.Category;
 import models.Gallery;
@@ -31,9 +27,7 @@ public class CategoryManager extends Controller {
 	private static Optional<Product> prod;
 	private static Optional<List<Gallery>> gal;
 	private static Map<String, Object> param;
-	
-	//breadcrumbsMap.put("Home", Router.reverse("ViewController.index()", emptyMap).url);
-	//breadcrumbsMap.put("User", Router.reverse("UserController.index()", emptyMap).url);
+
 	
 	@Cached(key="CatList", duration=3600)
 	@Transactional(readOnly = true)
@@ -58,14 +52,19 @@ public class CategoryManager extends Controller {
 	@Cached(key="GalList", duration=3600)
 	@Transactional(readOnly = true)
 	public static Result gallery() {
+
 		gal = Optional.of(new GalleryServiceImp(Gallery.class).findAll());
+
+
+		Collections.shuffle(gal.get());
+
+
 		return ok(views.html.gallery.gallery.render(msg3, gal.orElse(new ArrayList<Gallery>()), Breadcrumb.getBreadcrumbs("Gallery")));
 	}
 	
 	@Transactional(readOnly = true)
 	public static Result findProducts() {
 		if (Form.form().bindFromRequest().get("search") != null) {
-			
 			String value = Form.form().bindFromRequest().get("search").toString().replace("'", " ");
 			param = new HashMap<>();
 			param.put("name", "%"+value+"%");

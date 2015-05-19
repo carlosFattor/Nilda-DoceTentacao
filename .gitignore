@@ -73,3 +73,10 @@ $RECYCLE.BIN/
 *.prefs
 RUNNING_PID
 *.prefs
+*.classpath
+*.classpath
+*.name
+*.xml
+*.xml
+*.classpath
+*.prefs

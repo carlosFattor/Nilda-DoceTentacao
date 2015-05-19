@@ -58,6 +58,9 @@ POST	/manager/user/add			controllers.manager.ManagerUser.update()
 GET		/manager/user/delete/:id	controllers.manager.ManagerUser.delete(id: Long)
 GET		/manager/user/update/:id	controllers.manager.ManagerUser.updateFind(id: Long)
 
+#MANAGER CKEDITOR
+GET		/manager/tips/create		controllers.manager.ManagerEditor.create()
+
 #LOGGING
 GET		/manager/user/login			controllers.manager.ManagerLoggin.login()
 POST	/manager/user/logon			controllers.manager.ManagerLoggin.logon()

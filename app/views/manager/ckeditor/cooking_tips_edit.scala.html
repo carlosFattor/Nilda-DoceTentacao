@@ -1,0 +1,14 @@
+@(msg: String, content : String)
+
+
+@main_manager(msg){
+<script src="@routes.Assets.at("js/ckeditor/ckeditor.js")"></script>
+	<form>
+         <textarea name="editor1" id="editor1" rows="10" cols="80">
+             @content
+         </textarea>
+         <script>
+             CKEDITOR.replace( 'editor1' );
+         </script>
+     </form>
+}
