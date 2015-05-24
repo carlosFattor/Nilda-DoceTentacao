@@ -21,8 +21,9 @@ p {
 }
 
 .error {
-	color: red;
-	text-shadow:4px 4px 4px #DAC0C0;
+	border: 1px solid #CC4E83;
+	width: 200px;
+	box-shadow: 0px 0px 6px #ED0F0F;
 }
 
 #contact p {

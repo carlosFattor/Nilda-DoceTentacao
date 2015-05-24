@@ -6,7 +6,32 @@ function IsEmail(email) {
 	} else {
 		document.getElementById("msgemail").innerHTML = "<font color='red'>Email inválido </font>";
 	}
-}
+};
+
+$(document).ready(function(){
+	$("#buttonNews").click(function(){
+		var email = $("#news").val();
+		myJsRoutes.controllers.Application.news(email).ajax({
+			success: function(data){
+				$("#success").removeClass("hidden");
+			},
+			error: function(data){
+				$("#fail").removeClass("hidden");
+			}
+		})		
+		return false;
+	});
+	
+	$("#news").keydown(function(){
+		var email = $("#news").val();
+		if(!validaEmail(email)){
+			$("#news").addClass("error")
+		}else {
+			$("#news").removeClass("error")
+			$("#buttonNews").prop("disabled", false)
+		}
+	});
+});
 
 function validaEmail(email){
 	var str = email;
@@ -164,3 +189,5 @@ function validaEmail(email){
 
 	// Instantiate Slimslider
 	$('.slider').slimSlider();
+	
+	

@@ -6,31 +6,27 @@
 	
 	<div class="container">
 		<div class="row ">
-		@if(flash.containsKey("error")) {
-			<div class="alert alert-error col-6">
-				@flash.get("error")
-			</div>
-		}
+		<div id="fail"class="alert alert-error col-6 hidden">
+			<p>Erro ao tentar enviar e-mail!</p>
+		</div>
+
 	
-		@if(flash.containsKey("success")) {
-			<div class="alert alert-success col-6">
-				@flash.get("success")
-			</div>
-		}
+		<div id="success" class="alert alert-success col-6 hidden">
+			<p>E-mail enviado com sucesso!</p>
+		</div>
+		
 		</div>
 		<div class="row">
 			<div class="col-md-3 pull-left">
-				<form action="@controllers.contact.routes.ContactManager.news()" name="frmNews">
-					<fieldset>
-						<input autocomplete="off" placeholder="News Letter" id="news" name="news" type="text" onblur="IsEmail(document.getElementById('news').value)"  maxlength="60" size='65'
-						data-toggle="tooltip" data-placement="bottom" title="Deixe o Seu Email">
-							<button type="submit" id="buttonNews" class="btn btn-primary" autocomplete="off" disabled="true">
-								<span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>
-							</button>
-						</input>
-						<div id="msgemail"></div>
-					</fieldset>
-				</form>
+				<fieldset>
+					<input autocomplete="off" placeholder="News Letter" id="news" name="news" type="text" 
+						 maxlength="60" size='65' data-toggle="tooltip" data-placement="bottom" title="Deixe o Seu Email">
+						<button type="submit" id="buttonNews" class="btn btn-primary" autocomplete="off" disabled="true">
+							<span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>
+						</button>
+					</input>
+					<div id="msgemail"></div>
+				</fieldset>
 			</div>
 			<div class="col-md-3 pull-right">
 				<form action="@controllers.category.routes.CategoryManager.findProducts()" name="frmSearch">
@@ -121,6 +117,5 @@
 	    </div>
 	  </div>
 	</div>
-
-
 }
+<script type="text/javascript" src='@routes.Application.javascriptRoutes()'></script>

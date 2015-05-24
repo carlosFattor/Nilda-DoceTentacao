@@ -1,6 +1,7 @@
-@(msg: String, contForm: Form[models.Contact], breadcrumb: Map[String, String])
+@(msg: String, contForm: Form[models.Contact], breadcrumb: java.util.Map[String, String])
 
 @import helper._
+
 <meta charset="UTF-8">
 @main(msg, breadcrumb){
 	<div class="container" >
@@ -18,7 +19,6 @@
 					@flash.get("error")
 				</div>
 			}
-
 
 			@if(flash.containsKey("success")) {
 				<div class="alert alert-success">

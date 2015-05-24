@@ -24,7 +24,7 @@ POST	/contact/send				controllers.contact.ContactManager.send()
 GET		/learn						controllers.contact.ContactManager.learnMore()
 
 #News
-GET		/news						controllers.contact.ContactManager.news()
+GET		/news						controllers.Application.news(email: String)
 
 #FindProducts
 GET		/find						controllers.category.CategoryManager.findProducts()
@@ -65,6 +65,9 @@ GET		/manager/tips/create		controllers.manager.ManagerEditor.create()
 GET		/manager/user/login			controllers.manager.ManagerLoggin.login()
 POST	/manager/user/logon			controllers.manager.ManagerLoggin.logon()
 GET		/manager/user/logout		controllers.manager.ManagerLoggin.logout()
+
+#JS
+GET		/javascriptRoutes			controllers.Application.javascriptRoutes()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

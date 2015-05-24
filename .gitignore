@@ -80,3 +80,16 @@ RUNNING_PID
 *.xml
 *.classpath
 *.prefs
+*.cache-main
+*.cache-tests
+*.classpath
+*.classpath
+*.prefs
+*.java
+.idea_modules/public/stylesheets/main.css
+.idea_modules/public/javascripts/jquery-1.9.0.min.js
+.idea_modules/public/images/favicon.png
+.idea_modules/project/plugins.sbt
+.idea_modules/project/build.properties
+.settings/org.scala-ide.sdt.core.prefs
+.classpath
